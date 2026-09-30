@@ -1,0 +1,64 @@
+
+
+name: Build Vedic Library APK - No Android Studio Needed
+
+on:
+  push:
+    branches: [ main, master ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up JDK 17
+      uses: actions/setup-java@v4
+      with:
+        java-version: '17'
+        distribution: 'temurin'
+
+    - name: Setup Android SDK
+      uses: android-actions/setup-android@v3
+
+    - name: Cache Gradle
+      uses: actions/cache@v4
+      with:
+        path: |
+          ~/.gradle/caches
+          ~/.gradle/wrapper
+        key: gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+
+    - name: Make gradlew executable
+      run: chmod +x gradlew
+
+    - name: Build Debug APK
+      run: ./gradlew assembleDebug --stacktrace
+
+    - name: Build Release APK (Unsigned)
+      run: ./gradlew assembleRelease --stacktrace
+
+    - name: Upload Debug APK
+      uses: actions/upload-artifact@v4
+      with:
+        name: Vedic-Library-Debug-APK
+        path: app/build/outputs/apk/debug/app-debug.apk
+
+    - name: Upload Release APK
+      uses: actions/upload-artifact@v4
+      with:
+        name: Vedic-Library-Release-APK
+        path: app/build/outputs/apk/release/app-release-unsigned.apk
+
+-----------------------------------------------------------
+END - Yahan tak copy karo
+-----------------------------------------------------------
+
+Kaise banana hai:
+1. GitHub repo me "Add file" > "Create new file" par click karo
+2. File name box me likho: .github/workflows/build-apk.yml
+3. Upar wala pura code paste karo
+4. Neeche "Commit changes" dabao
