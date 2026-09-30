@@ -1,4 +1,4 @@
-name: Build Vedic Library APK - Fixed 
+name: Build Vedic Library APK - Final
 
 on:
   push:
@@ -13,49 +13,18 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v4
 
-    - name: Fix Project Structure
+    - name: Create Fresh Android Project
       run: |
-        echo "Fixing project structure..."
+        echo "Creating fresh project from scratch..."
+        rm -rf app
         mkdir -p app/src/main/java/com/archiveapp/app
         mkdir -p app/src/main/res/layout
         mkdir -p app/src/main/res/values
         mkdir -p app/src/main/res/xml
         mkdir -p app/src/main/res/mipmap-hdpi
-        mkdir -p app/src/main/res/mipmap-mdpi
-        mkdir -p app/src/main/res/mipmap-xhdpi
-        mkdir -p app/src/main/res/mipmap-xxhdpi
-        mkdir -p app/src/main/res/mipmap-xxxhdpi
         mkdir -p gradle/wrapper
         
-        # Move files to correct locations if they exist at root
-        [ -f AndroidManifest.xml ] && mv AndroidManifest.xml app/src/main/ || true
-        [ -f MainActivity.kt ] && mv MainActivity.kt app/src/main/java/com/archiveapp/app/ || true
-        [ -f activity_main.xml ] && mv activity_main.xml app/src/main/res/layout/ || true
-        [ -f colors.xml ] && mv colors.xml app/src/main/res/values/ || true
-        [ -f strings.xml ] && mv strings.xml app/src/main/res/values/ || true
-        [ -f themes.xml ] && mv themes.xml app/src/main/res/values/ || true
-        [ -f file_paths.xml ] && mv file_paths.xml app/src/main/res/xml/ || true
-        
-        # Handle icons
-        [ -f ic_launcher.png ] && cp ic_launcher.png app/src/main/res/mipmap-hdpi/ic_launcher.png || true
-        [ -f ic_launcher_round.png ] && cp ic_launcher_round.png app/src/main/res/mipmap-hdpi/ic_launcher_round.png || true
-        [ -f app-icon.png ] && cp app-icon.png app/src/main/res/mipmap-hdpi/ic_launcher.png || true
-        [ -f vedic-app-icon.png ] && cp vedic-app-icon.png app/src/main/res/mipmap-hdpi/ic_launcher.png || true
-        [ -f vedic-app-icon.png ] && cp vedic-app-icon.png app/src/main/res/mipmap-hdpi/ic_launcher_round.png || true
-        
-        # Copy icons to all densities
-        for d in app/src/main/res/mipmap-*; do
-          [ -f app/src/main/res/mipmap-hdpi/ic_launcher.png ] && cp app/src/main/res/mipmap-hdpi/ic_launcher.png $d/ || true
-          [ -f app/src/main/res/mipmap-hdpi/ic_launcher_round.png ] && cp app/src/main/res/mipmap-hdpi/ic_launcher_round.png $d/ic_launcher_round.png || true
-        done
-        
-        # If build.gradle at root is actually app build.gradle, move it
-        if [ -f build.gradle ] && grep -q "namespace" build.gradle; then
-          echo "Moving app build.gradle to correct location"
-          cp build.gradle app/build.gradle || true
-        fi
-        
-        # Create root build.gradle if missing or wrong
+        # Root build.gradle
         cat > build.gradle << 'EOF'
         plugins {
             id 'com.android.application' version '8.2.0' apply false
@@ -63,9 +32,8 @@ jobs:
         }
         EOF
         
-        # Create settings.gradle if missing
-        if [ ! -f settings.gradle ]; then
-          cat > settings.gradle << 'EOF'
+        # settings.gradle
+        cat > settings.gradle << 'EOF'
         pluginManagement {
             repositories {
                 google()
@@ -83,64 +51,180 @@ jobs:
         rootProject.name = "Vedic Library"
         include ':app'
         EOF
-        fi
         
-        # Create gradle.properties if missing
-        if [ ! -f gradle.properties ]; then
-          cat > gradle.properties << 'EOF'
+        # gradle.properties
+        cat > gradle.properties << 'EOF'
         org.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8
         android.useAndroidX=true
         android.nonTransitiveRResources=true
         EOF
-        fi
         
-        # Create file_paths.xml if missing
-        if [ ! -f app/src/main/res/xml/file_paths.xml ]; then
-          mkdir -p app/src/main/res/xml
-          cat > app/src/main/res/xml/file_paths.xml << 'EOF'
-        <?xml version="1.0" encoding="utf-8"?>
-        <paths>
-            <external-path name="external_files" path="." />
-            <external-files-path name="external_files" path="." />
-            <cache-path name="cache" path="." />
-            <external-cache-path name="external_cache" path="." />
-            <files-path name="files" path="." />
-        </paths>
+        # app/build.gradle
+        cat > app/build.gradle << 'EOF'
+        plugins {
+            id 'com.android.application'
+            id 'org.jetbrains.kotlin.android'
+        }
+        android {
+            namespace 'com.archiveapp.app'
+            compileSdk 34
+            defaultConfig {
+                applicationId "com.vediclibrary.app"
+                minSdk 21
+                targetSdk 34
+                versionCode 1
+                versionName "1.0"
+            }
+            buildTypes {
+                release {
+                    minifyEnabled false
+                }
+            }
+            compileOptions {
+                sourceCompatibility JavaVersion.VERSION_1_8
+                targetCompatibility JavaVersion.VERSION_1_8
+            }
+            kotlinOptions {
+                jvmTarget = '1.8'
+            }
+        }
+        dependencies {
+            implementation 'androidx.core:core-ktx:1.12.0'
+            implementation 'androidx.appcompat:appcompat:1.6.1'
+            implementation 'com.google.android.material:material:1.11.0'
+            implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
+        }
         EOF
-        fi
         
-        # Download gradle wrapper jar if missing
-        if [ ! -f gradle/wrapper/gradle-wrapper.jar ]; then
-          mkdir -p gradle/wrapper
-          curl -L -o gradle/wrapper/gradle-wrapper.jar https://github.com/gradle/gradle/raw/master/gradle/wrapper/gradle-wrapper.jar
-        fi
+        # AndroidManifest.xml
+        cat > app/src/main/AndroidManifest.xml << 'EOF'
+        <?xml version="1.0" encoding="utf-8"?>
+        <manifest xmlns:android="http://schemas.android.com/apk/res/android">
+            <uses-permission android:name="android.permission.INTERNET" />
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+            <application
+                android:allowBackup="true"
+                android:label="Vedic Library"
+                android:theme="@android:style/Theme.NoTitleBar">
+                <activity
+                    android:name=".MainActivity"
+                    android:exported="true">
+                    <intent-filter>
+                        <action android:name="android.intent.action.MAIN" />
+                        <category android:name="android.intent.category.LAUNCHER" />
+                    </intent-filter>
+                </activity>
+            </application>
+        </manifest>
+        EOF
         
-        # Create wrapper properties if missing
-        if [ ! -f gradle/wrapper/gradle-wrapper.properties ]; then
-          mkdir -p gradle/wrapper
-          cat > gradle/wrapper/gradle-wrapper.properties << 'EOF'
+        # MainActivity.kt
+        cat > app/src/main/java/com/archiveapp/app/MainActivity.kt << 'EOF'
+        package com.archiveapp.app
+        import android.annotation.SuppressLint
+        import android.app.DownloadManager
+        import android.content.Context
+        import android.content.Intent
+        import android.net.Uri
+        import android.os.Bundle
+        import android.os.Environment
+        import android.webkit.*
+        import android.widget.Toast
+        import androidx.appcompat.app.AppCompatActivity
+        import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+
+        class MainActivity : AppCompatActivity() {
+            private lateinit var webView: WebView
+            private lateinit var swipeRefresh: SwipeRefreshLayout
+            private val WEBSITE_URL = "https://archive.org/details/@vivek_arya_vedic_lib"
+
+            @SuppressLint("SetJavaScriptEnabled")
+            override fun onCreate(savedInstanceState: Bundle?) {
+                super.onCreate(savedInstanceState)
+                swipeRefresh = SwipeRefreshLayout(this)
+                webView = WebView(this)
+                swipeRefresh.addView(webView)
+                setContentView(swipeRefresh)
+                
+                webView.settings.javaScriptEnabled = true
+                webView.settings.domStorageEnabled = true
+                webView.settings.allowFileAccess = true
+                webView.settings.mixedContentMode = WebSettings.MIXED_CONTENT_ALWAYS_ALLOW
+                
+                webView.webViewClient = WebViewClient()
+                webView.webChromeClient = WebChromeClient()
+                
+                webView.setDownloadListener { url, userAgent, contentDisposition, mimetype, _ ->
+                    try {
+                        val request = DownloadManager.Request(Uri.parse(url))
+                        request.setMimeType(mimetype)
+                        request.addRequestHeader("User-Agent", userAgent)
+                        request.setTitle(URLUtil.guessFileName(url, contentDisposition, mimetype))
+                        request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
+                        request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, URLUtil.guessFileName(url, contentDisposition, mimetype))
+                        val dm = getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
+                        dm.enqueue(request)
+                        Toast.makeText(this, "Download shuru...", Toast.LENGTH_SHORT).show()
+                    } catch (e: Exception) {
+                        startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url)))
+                    }
+                }
+                
+                swipeRefresh.setOnRefreshListener { webView.reload() }
+                webView.loadUrl(WEBSITE_URL)
+            }
+            
+            override fun onBackPressed() {
+                if (webView.canGoBack()) webView.goBack() else super.onBackPressed()
+            }
+        }
+        EOF
+        
+        # Layout
+        cat > app/src/main/res/layout/activity_main.xml << 'EOF'
+        <?xml version="1.0" encoding="utf-8"?>
+        <WebView xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/webView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+        EOF
+        
+        # Strings
+        cat > app/src/main/res/values/strings.xml << 'EOF'
+        <resources>
+            <string name="app_name">Vedic Library</string>
+        </resources>
+        EOF
+        
+        # File paths
+        cat > app/src/main/res/xml/file_paths.xml << 'EOF'
+        <?xml version="1.0" encoding="utf-8"?>
+        <paths><external-path name="external_files" path="." /></paths>
+        EOF
+        
+        # Gradle wrapper
+        curl -L -o gradle/wrapper/gradle-wrapper.jar https://github.com/gradle/gradle/raw/master/gradle/wrapper/gradle-wrapper.jar
+        cat > gradle/wrapper/gradle-wrapper.properties << 'EOF'
         distributionBase=GRADLE_USER_HOME
         distributionPath=wrapper/dists
         distributionUrl=https\://services.gradle.org/distributions/gradle-8.2-bin.zip
-        networkTimeout=10000
-        validateDistributionUrl=true
         zipStoreBase=GRADLE_USER_HOME
         zipStorePath=wrapper/dists
         EOF
-        fi
         
-        # Fix MainActivity.kt URL if needed
-        if [ -f app/src/main/java/com/archiveapp/app/MainActivity.kt ]; then
-          sed -i 's|@your_username|@vivek_arya_vedic_lib|g' app/src/main/java/com/archiveapp/app/MainActivity.kt || true
-          sed -i 's|@vivek_arya_vedic_lib.*|@vivek_arya_vedic_lib"|g' app/src/main/java/com/archiveapp/app/MainActivity.kt || true
-        fi
+        # gradlew
+        cat > gradlew << 'EOF'
+        #!/bin/sh
+        APP_HOME=$(cd $(dirname "$0") && pwd)
+        CLASSPATH=$APP_HOME/gradle/wrapper/gradle-wrapper.jar
+        exec java -classpath "$CLASSPATH" org.gradle.wrapper.GradleWrapperMain "$@"
+        EOF
+        chmod +x gradlew
         
-        echo "Structure fixed, listing files:"
-        find app -type f | head -20
-        ls -la gradle/wrapper/
+        echo "Fresh project created!"
 
     - name: Set up JDK 17
-      uses: actions/setup-java@v4
+      uses: actions/setup-java@v5
       with:
         java-version: '17'
         distribution: 'temurin'
@@ -148,22 +232,13 @@ jobs:
     - name: Setup Android SDK
       uses: android-actions/setup-android@v3
 
-    - name: Cache Gradle
-      uses: actions/cache@v4
-      with:
-        path: |
-          ~/.gradle/caches
-          ~/.gradle/wrapper
-        key: gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
-
-    - name: Make gradlew executable
-      run: chmod +x gradlew
-
     - name: Build Debug APK
-      run: ./gradlew assembleDebug --stacktrace
+      run: |
+        chmod +x gradlew
+        ./gradlew assembleDebug --no-daemon
 
-    - name: Upload Debug APK
+    - name: Upload APK
       uses: actions/upload-artifact@v4
       with:
-        name: Vedic-Library-Debug-APK
+        name: Vedic-Library-APK
         path: app/build/outputs/apk/debug/app-debug.apk
