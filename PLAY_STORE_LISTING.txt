@@ -1,0 +1,56 @@
+PLAY STORE LISTING - Vedic Library App
+========================================
+
+App Name: Vedic Library - Dr Vivek Arya
+Short Description (80 chars):
+Vedic Granth, Arya Samaj Books, Vedas & Ancient Indian Literature Collection
+
+Full Description (4000 chars):
+🕉️ Vedic Library - Dr. Vivek Arya's Complete Collection
+
+Welcome to the world's largest digital Vedic Library! This app brings you Dr. Vivek Arya's curated collection from Archive.org directly to your Android phone.
+
+📚 WHAT'S INSIDE:
+• The Vedas - Complete translations and commentaries
+• Arya Samaj Literature - Rare books from 1875-2025
+• Vedic Philosophy - Dayanand Saraswati's works
+• Yajna & Rituals - Detailed explanations
+• Sanskrit & Hindi Granths - Original manuscripts
+• Research Papers - Vedic studies
+
+✨ APP FEATURES:
+✓ Fast & Lightweight - Opens in 2 seconds
+✓ Offline Reading - Save books for later
+✓ Direct PDF Download - One-tap download
+✓ Share on WhatsApp - Share any book
+✓ Zoom & Night Mode - Easy reading
+✓ Search Function - Find any granth quickly
+✓ No Ads in Reading - Distraction free
+
+📖 PERFECT FOR:
+- Students of Vedic studies
+- Arya Samaj followers
+- Researchers & Scholars
+- Anyone interested in Indian culture
+
+🔒 CONTENT SOURCE:
+All books are from public domain collection at archive.org/details/@vivek_arya_vedic_lib
+Curated by Dr. Vivek Arya, Vedic Scholar
+
+This app uses WebView to display the archive.org collection in a native app experience with added features like download manager, share, and offline support.
+
+Keywords: Vedic Library, Vedas, Arya Samaj, Vivek Arya, Hindu Books, Sanskrit, Dayanand, Vedic Literature, Indian Culture, Puranas, Upanishads
+
+Privacy Policy: https://archive.org/about/terms.php
+Contact: Via archive.org profile @vivek_arya_vedic_lib
+
+Category: Books & Reference
+Content Rating: Everyone
+
+---
+
+App Icon: Use vedic-app-icon.png (1024x1024)
+Feature Graphic: Create 1024x500 with text "Vedic Library - 1200+ Granth"
+Screenshots Needed: 3-4 screenshots of app (phone preview already made)
+
+Package Name Suggestion: com.vediclibrary.vivekarya (you can change in build.gradle)

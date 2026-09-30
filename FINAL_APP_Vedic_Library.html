@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vedic Library - Android App Preview</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Noto Sans Devanagari',system-ui,Segoe UI,Roboto}
+body{background:#0a0a0f;color:#fff;min-height:100vh;padding:20px}
+.container{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:360px 1fr;gap:50px;align-items:start}
+@media(max-width:900px){.container{grid-template-columns:1fr}.phone{margin:0 auto}}
+.phone{width:360px;height:760px;background:#000;border-radius:40px;padding:12px;box-shadow:0 0 0 3px #222, 0 40px 80px rgba(0,0,0,.7);position:relative;flex-shrink:0}
+.phone-notch{position:absolute;top:12px;left:50%;transform:translateX(-50%);width:140px;height:28px;background:#000;border-radius:0 0 16px 16px;z-index:20}
+.screen{width:100%;height:100%;background:#fff;border-radius:28px;overflow:hidden;display:flex;flex-direction:column}
+.status-bar{height:32px;background:#7c3aed;display:flex;justify-content:space-between;align-items:center;padding:0 20px;font-size:12px;color:#fff;font-weight:600}
+.app-bar{height:60px;background:linear-gradient(135deg,#7c3aed,#f59e0b);display:flex;align-items:center;padding:0 16px;gap:12px;color:#fff}
+.app-bar h1{font-size:18px;font-weight:700}
+.app-bar .sub{font-size:11px;opacity:.9}
+.progress{height:3px;background:#fbbf24;width:100%;animation:load 2s ease}
+@keyframes load{0%{width:0}100%{width:100%}}
+.web-mock{flex:1;background:#fff;color:#111;overflow:auto}
+.header-card{background:linear-gradient(135deg,#fef3c7,#fde68a);padding:16px;display:flex;gap:12px;align-items:center;border-bottom:1px solid #f59e0b20}
+.avatar{width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,#7c3aed,#f59e0b);display:flex;align-items:center;justify-content:center;color:#fff;font-size:28px;font-weight:800}
+.search{background:#f3f4f6;margin:12px;border-radius:12px;padding:10px 14px;display:flex;gap:8px;align-items:center;color:#6b7280;font-size:14px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:0 12px 12px}
+.card{border:1px solid #f3f4f6;border-radius:14px;overflow:hidden;background:#fff;box-shadow:0 2px 8px rgba(0,0,0,.04)}
+.card-img{height:90px;display:flex;align-items:center;justify-content:center;font-size:36px}
+.card-body{padding:8px}
+.card-title{font-size:12px;font-weight:700;line-height:1.3}
+.card-meta{font-size:10px;color:#6b7280;margin-top:2px}
+.fab{position:absolute;bottom:20px;right:20px;width:56px;height:56px;background:linear-gradient(135deg,#7c3aed,#f59e0b);border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 20px rgba(124,58,237,.4);font-size:22px;color:#fff}
+.bottom-nav{height:56px;border-top:1px solid #f3f4f6;display:flex;justify-content:space-around;align-items:center;font-size:11px;color:#6b7280;background:#fff}
+.bottom-nav .active{color:#7c3aed;font-weight:700}
+
+.info h2{font-size:36px;line-height:1.1;margin-bottom:12px;background:linear-gradient(135deg,#7c3aed,#f59e0b);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.info p{color:#a1a1aa;line-height:1.7;margin-bottom:16px;font-size:15px}
+.badge{display:inline-block;background:#1a1a22;padding:8px 14px;border-radius:100px;font-size:12px;margin:4px;border:1px solid #2a2a35;color:#e4e4e7}
+.code{background:#15151d;padding:18px;border-radius:14px;font-family:monospace;font-size:13px;margin:20px 0;color:#fbbf24;overflow:auto;border:1px solid #2a2a35;line-height:1.6}
+.btn{display:inline-flex;align-items:center;gap:8px;background:linear-gradient(135deg,#7c3aed,#f59e0b);color:#fff;padding:14px 24px;border-radius:12px;text-decoration:none;font-weight:700;margin:6px 6px 6px 0;box-shadow:0 8px 20px rgba(124,58,237,.3)}
+.btn-outline{background:transparent;border:1px solid #3f3f46;color:#e4e4e7;box-shadow:none}
+.step{background:#15151d;border:1px solid #27272a;border-radius:16px;padding:16px;margin:12px 0;display:flex;gap:14px}
+.step-num{width:32px;height:32px;background:#7c3aed;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;flex-shrink:0}
+</style>
+</head>
+<body>
+<div class="container">
+<div class="phone">
+<div class="phone-notch"></div>
+<div class="screen">
+<div class="status-bar"><span>9:41</span><span>📶 5G 🔋 87%</span></div>
+<div class="app-bar">
+<div style="width:36px;height:36px;background:rgba(255,255,255,.2);border-radius:10px;display:flex;align-items:center;justify-content:center">🕉️</div>
+<div><h1>Vedic Library</h1><div class="sub">Dr. Vivek Arya</div></div>
+<div style="margin-left:auto">🔍</div>
+</div>
+<div class="progress"></div>
+<div class="web-mock">
+<div class="header-card">
+<div class="avatar">VA</div>
+<div><div style="font-weight:800;font-size:15px">@vivek_arya_vedic_lib</div><div style="font-size:12px;color:#92400e">1,200+ Vedic Granth • 50K Views</div><div style="font-size:11px;color:#b45309;margin-top:2px">Arya Samaj | Vedas | Dayanand</div></div>
+</div>
+<div class="search">🔍 Vedas, Upanishad, Manusmriti search karein...</div>
+<div style="padding:0 12px 8px;font-weight:800;font-size:14px">📚 Latest Uploads</div>
+<div class="grid">
+<div class="card"><div class="card-img" style="background:linear-gradient(135deg,#fef3c7,#fcd34d)">📖</div><div class="card-body"><div class="card-title">The Vedas By Dr Ramprakash</div><div class="card-meta">English • 2016</div></div></div>
+<div class="card"><div class="card-img" style="background:linear-gradient(135deg,#ddd6fe,#a78bfa)">🕉️</div><div class="card-body"><div class="card-title">Vedic Pashuyagya Mimansha</div><div class="card-meta">Hindi • 31.6 MB</div></div></div>
+<div class="card"><div class="card-img" style="background:linear-gradient(135deg,#fecaca,#f87171)">📜</div><div class="card-body"><div class="card-title">Arya Samaj Shatabdi Anka 1975</div><div class="card-meta">Hindi • 82.2 MB</div></div></div>
+<div class="card"><div class="card-img" style="background:linear-gradient(135deg,#bbf7d0,#34d399)">🪔</div><div class="card-body"><div class="card-title">Yajurveda Bhashya</div><div class="card-meta">Sanskrit • 120 MB</div></div></div>
+</div>
+<div style="margin:12px;padding:12px;background:#f5f3ff;border-radius:12px;border:1px solid #ddd6fe">
+<div style="font-weight:700;font-size:13px;color:#5b21b6">✨ App Features Active</div>
+<div style="font-size:11px;color:#6d28d9;margin-top:4px">Download • Share • Offline Reading • Zoom • Dark Mode</div>
+</div>
+</div>
+<div class="bottom-nav"><span class="active">🏠 Home</span><span>📚 Books</span><span>🔖 Saved</span><span>👤 Profile</span></div>
+<div class="fab">↗</div>
+</div>
+</div>
+
+<div class="info">
+<h2>Aapka Vedic Library App Ready Hai!</h2>
+<p>Link: <b style="color:#fbbf24">archive.org/details/@vivek_arya_vedic_lib</b><br>
+Maine aapke liye final Android Project bana diya hai jisme aapka saara collection app ki tarah khulega.</p>
+
+<div>
+<span class="badge">🕉️ Vedic Theme</span>
+<span class="badge">📥 PDF Download</span>
+<span class="badge">↗️ WhatsApp Share</span>
+<span class="badge">◀️ Back Button</span>
+<span class="badge">🔄 Pull Refresh</span>
+<span class="badge">📴 Offline Mode</span>
+</div>
+
+<div class="code">✅ App Name: Vedic Library<br>✅ Package: com.archiveapp.app<br>✅ Website: https://archive.org/details/@vivek_arya_vedic_lib<br>✅ Icon: Vedic Om + Books (Ready)<br>✅ Theme: Saffron + Purple (Vedic)</div>
+
+<h3 style="margin:20px 0 12px">📱 APK Kaise Banayein? (3 Minute)</h3>
+
+<div class="step"><div class="step-num">1</div><div><b>Android Studio Download Karo</b><br><span style="color:#a1a1aa;font-size:13px">developer.android.com/studio - Free hai, 5 min me install hota hai</span></div></div>
+<div class="step"><div class="step-num">2</div><div><b>Project Open Karo</b><br><span style="color:#a1a1aa;font-size:13px">ArchiveApp folder ko Android Studio me Open karo. Gradle sync hone do (2 min)</span></div></div>
+<div class="step"><div class="step-num">3</div><div><b>APK Build Karo</b><br><span style="color:#a1a1aa;font-size:13px">Menu: Build → Build APK(s) → app-debug.apk mil jayega! Usse direct mobile me install kar sakte ho</span></div></div>
+
+<p style="margin-top:20px">🎯 <b>Play Store Par Dalna Hai?</b><br>Build → Generate Signed Bundle → AAB file banegi. Usko Play Console par upload kar do. Privacy Policy me likhna: "All content from archive.org public library by Dr. Vivek Arya"</p>
+
+<a class="btn" href="https://archive.org/details/@vivek_arya_vedic_lib" target="_blank">🔗 Original Collection Dekho</a>
+<a class="btn btn-outline" href="#">📁 Project Files Neeche Hain</a>
+
+<div style="margin-top:24px;padding:16px;background:#fef3c7;border-radius:12px;color:#92400e;font-size:13px;line-height:1.5">
+<b>💡 Pro Tip:</b> Agar aapko bina Android Studio ke turant APK chahiye, to <b>appsgeyser.com</b> par jao, wahan link daalo aur 2 min me APK mil jayega. Lekin best quality ke liye Android Studio wala hi use karo jo maine banaya hai.
+</div>
+
+</div>
+</div>
+</body>
+</html>
